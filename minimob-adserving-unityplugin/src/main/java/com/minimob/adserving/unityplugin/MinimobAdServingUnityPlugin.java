@@ -22,20 +22,20 @@ import com.unity3d.player.UnityPlayer;
 /**
  * Created by t.nikolopoulos on 06/8/2016.
  */
-public class MinimobVideoAdPlayer
+public class MinimobAdServingUnityPlugin
 {
-	String TAG = "MinimobVideoAdPlayerUnity";
+	String TAG = "MinimobUnityPlugin";
 
 	private AdZone adZone = null;
 	private ArrayList<String> postponedMessages = new ArrayList<String>();
 	private boolean adZoneCreated = false;
 	private boolean hasFocus = true;
-	private static MinimobVideoAdPlayer _instance;
+	private static MinimobAdServingUnityPlugin _instance;
 	
-	public static MinimobVideoAdPlayer GetInstance()
+	public static MinimobAdServingUnityPlugin GetInstance()
 	{
 		if (_instance == null)
-			_instance = new MinimobVideoAdPlayer();
+			_instance = new MinimobAdServingUnityPlugin();
 		return _instance;
 	}
 	
@@ -66,7 +66,7 @@ public class MinimobVideoAdPlayer
         }
         catch (Exception ex)
         {
-        	Log.e(TAG, "exception " + ex.getMessage() , ex);
+        	Log.e(TAG, "exception:" + ex.getMessage() , ex);
         }
     }
 
@@ -211,12 +211,12 @@ public class MinimobVideoAdPlayer
 	{
 		if (!hasFocus)
 		{
-			Log.d(TAG , "postponing unity message"  + methodName);
+			Log.d(TAG , "postponing unity message:"  + methodName);
 			postponedMessages.add(methodName);
 			return;
 		}
-		Log.d(TAG , "sending unity message"  + methodName);
-		UnityPlayer.UnitySendMessage("MinimobVideoAdPlayer", methodName, "");
+		Log.d(TAG , "sending unity message:"  + methodName);
+		UnityPlayer.UnitySendMessage("MinimobVideoAdPlayer:", methodName, "");
 	}
 
 
