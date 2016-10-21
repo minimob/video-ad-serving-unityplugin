@@ -188,10 +188,15 @@ public class MinimobAdServingUnityPlugin
 
 	public void LoadVideo()
 	{
-		if (adZone == null || !adZoneCreated)
-			return;
-		if (!(adZone instanceof AdZoneVideoPreloaded))
-			return;
+        if (adZone == null || !adZoneCreated) {
+            Log.d(TAG , "NO adZone");
+            return;
+        }
+
+		if (!(adZone instanceof AdZoneVideoPreloaded)) {
+            Log.d(TAG , "adZone not an instance of AdZoneVideoPreloaded");
+            return;
+        }
 
 		UnityPlayer.currentActivity.runOnUiThread(
             new Runnable() {
@@ -208,8 +213,10 @@ public class MinimobAdServingUnityPlugin
 
 	public void ShowVideo()
 	{
-		if (adZone == null || !adZoneCreated)
-			return;
+		if (adZone == null || !adZoneCreated) {
+            Log.d(TAG , "NO adZone");
+            return;
+        }
 
 		UnityPlayer.currentActivity.runOnUiThread(
             new Runnable() {
@@ -230,7 +237,7 @@ public class MinimobAdServingUnityPlugin
 	{
 		if (!hasFocus)
 		{
-			Log.d(TAG , "postponing unity message:"  + msg);
+			Log.d(TAG , "postponing unity message:" + msg);
 			postponedMessages.add(msg);
 			return;
 		}
