@@ -2,7 +2,7 @@ package com.minimob.adserving.unityplugin;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.util.Log;
+import com.minimob.adserving.helpers.MinimobLog;
 
 import com.minimob.adserving.adzones.AdTag;
 import com.minimob.adserving.adzones.AdZone;
@@ -58,7 +58,7 @@ public class MinimobAdServingUnityPlugin
             //set the custom tracking data (optional)
             adTag.setCustomTrackingData(customTrackingData);
             //request the AdZone
-            Log.d(TAG , "Requesting AdZone");
+            MinimobLog.d(TAG , "Requesting AdZone");
             SendUnityMessage("Requesting AdZone");
 			if (preloadVideo) {
 				MinimobAdController.getInstance().getVideoPreloaded(activity, adTag);
@@ -69,7 +69,7 @@ public class MinimobAdServingUnityPlugin
         }
         catch (Exception ex)
         {
-        	Log.e(TAG, "exception:" + ex.getMessage() , ex);
+            MinimobLog.e(TAG, "exception:" + ex.getMessage() , ex);
         }
     }
 
@@ -189,12 +189,12 @@ public class MinimobAdServingUnityPlugin
 	public void LoadVideo()
 	{
         if (adZone == null || !adZoneCreated) {
-            Log.d(TAG , "NO adZone");
+            MinimobLog.d(TAG , "NO adZone");
             return;
         }
 
 		if (!(adZone instanceof AdZoneVideoPreloaded)) {
-            Log.d(TAG , "adZone not an instance of AdZoneVideoPreloaded");
+            MinimobLog.d(TAG , "adZone not an instance of AdZoneVideoPreloaded");
             return;
         }
 
@@ -202,10 +202,13 @@ public class MinimobAdServingUnityPlugin
             new Runnable() {
                 @Override
                 public void run() {
-                    if (adZone instanceof AdZoneVideoPreloaded)
-                        ((AdZoneVideoPreloaded)adZone).load();
-                    else
-                        Log.e(TAG , "unknown AdZone object type");
+                    if (adZone instanceof AdZoneVideoPreloaded) {
+                        MinimobLog.d(TAG , "((AdZoneVideoPreloaded) adZone).load()");
+                        ((AdZoneVideoPreloaded) adZone).load();
+                    }
+                    else {
+                        MinimobLog.e(TAG, "unknown AdZone object type");
+                    }
                 }
             }
         );
@@ -214,7 +217,7 @@ public class MinimobAdServingUnityPlugin
 	public void ShowVideo()
 	{
 		if (adZone == null || !adZoneCreated) {
-            Log.d(TAG , "NO adZone");
+            MinimobLog.d(TAG , "NO adZone");
             return;
         }
 
@@ -222,12 +225,17 @@ public class MinimobAdServingUnityPlugin
             new Runnable() {
                 @Override
                 public void run() {
-                    if (adZone instanceof AdZoneVideo)
+                    if (adZone instanceof AdZoneVideo) {
+                        MinimobLog.d(TAG , "((AdZoneVideo) adZone).show()");
                         ((AdZoneVideo) adZone).show();
-                    else if (adZone instanceof AdZoneVideoPreloaded)
-                        ((AdZoneVideoPreloaded)adZone).show();
-                    else
-                        Log.e(TAG , "unknown AdZone object type");
+                    }
+                    else if (adZone instanceof AdZoneVideoPreloaded) {
+                        MinimobLog.d(TAG , "((AdZoneVideoPreloaded) adZone).show()");
+                        ((AdZoneVideoPreloaded) adZone).show();
+                    }
+                    else {
+                        MinimobLog.e(TAG , "unknown AdZone object type");
+                    }
                 }
             }
         );
@@ -237,11 +245,11 @@ public class MinimobAdServingUnityPlugin
 	{
 		if (!hasFocus)
 		{
-			Log.d(TAG , "postponing unity message:" + msg);
+            MinimobLog.d(TAG , "postponing unity message:" + msg);
 			postponedMessages.add(msg);
 			return;
 		}
-		Log.d(TAG , "sending unity message:"  + msg);
+        MinimobLog.d(TAG , "sending unity message:"  + msg);
 		UnityPlayer.UnitySendMessage("MinimobAdServing", msg, "");
 	}
 
